@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <math.h>
+
+/*definition of functions*/
+double f(double x, double y);
+double pythagoras(double x, double y);
+
+int main(void){
+
+     /*Instantiate the variables*/
+     double o, a, h;
+     double theta, angle, right;
+  
+     /*Message which describes what the user must do and then scans in values accordingly*/
+     printf("Please enter opposite and adjacent values: ");
+     if (scanf("%lf %lf", &o, &a) != 2) {
+        printf("Sorry, couldn’t read opposite and adjacent values.\n");
+        return 1;
+     }
+
+     /*calls atan function on opposite and adjacent values and calculates the values of the angles*/
+     theta=f(o,a);
+     angle=(90.0-theta);
+     right=90.0;
+     h=pythagoras(o,a);
+     
+     /*print statement to calculate the three sides of the triangle*/
+     printf("The three sides of the triangle are %lf %lf %lf", o, a, h);
+     printf("\n");
+     printf("The three angles of the triangle are %lf %lf %lf degrees.", right, angle, theta);
+     printf("\n");
+     return 0;
+
+}
+/*declaration of functions*/
+double f(double x, double y){
+
+    double theta;
+
+    theta=atan2(x,y)*(180.0/M_PI);
+
+    return theta;
+}
+/*pythagoras function to calculate the hypotenuse of a right-angled triangle*/ 
+double pythagoras(double x, double y){
+
+    double h;
+
+    h=sqrt((x*x)+(y*y));
+
+    return h;
+}
