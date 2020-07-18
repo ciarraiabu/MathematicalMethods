@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <math.h>
+/*hard definition of number of steps*/
+#define N 10000
+
+/*functions are declared before main method*/
+double f(double x, double p);
+double F(double p);
+
+int main(void){
+     
+     double p;
+
+     /*power value is scanned in.*/
+     printf("Please enter a p value: ");
+            if (scanf("%lf", &p) != 1) {
+                printf("Sorry, p must be a valid number.\n");
+                return 1;
+           }
+
+     /*print statement*/
+     printf("The integral is about %lf  using %d steps ", F(p), N);
+     printf("\n");
+
+     return 0;
+}
+/* equation to be integrated is defined in a function*/
+double f(double x, double p) {
+   
+   double y;
+   y=1-pow(x,p);
+   return pow(y, 1.0/p);
+
+}
+double F(double p){
+
+  /*declare other variables*/
+  int steps=N;
+  int i;
+  double lower = 0;
+  double upper = 1;
+  double simp, h, y;
+  
+  /* integrate the equation from upper to lower limit*/
+  h = (upper-lower)/steps;
+  /*Simpsons rule*/
+  simp = -f(lower,p);
+  y = lower;
+  for (i = 0; i < steps; i += 2) {
+     
+    simp += 2.0*f(y,p)+4.0*f(y+h,p);
+    y += 2.0*h;
+  }
+  simp += f(upper,p);
+  simp *= h/3.0;
+
+  return simp;
+}
