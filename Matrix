@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+#define N 5
+
+int main(void){
+
+    double a[N][N];
+    double b[N][N];
+    int i, j ,k;
+
+    for (i = 0; i < N; i++) {
+        for (j = 0; j < N; j++) {
+            if (scanf("%lf", &a[i][j]) != 1) {
+                printf("Couldn’t read element %d, %d\n", i, j);
+                return 1;
+            }
+        }
+    }
+
+
+       for (i = 0; i < N i++) {
+           for (j = 0; j < N; j++) {
+                b[i][j] = 0.0;
+               for (k = 0; k < N; k++)
+                    b[i][j] += a[i][k]*a[k][j];
+           }
+       }
