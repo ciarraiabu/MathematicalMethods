@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+/*permanently assign a variable N to the value of 3 to denote the size of the matrix*/ 
+#define N 3
+
+/*definition of a function det((A^T)xA-λI */
+int f(int b[][N], int I[][N], int m);
+/*definition of determinant*/
+int det(int c[][N]);
+
+int main(void){
+
+     /*declare variables*/
+     int i, j, k;
+     int a[N][N];
+     int b[N][N];
+     int t[N][N];
+     int I[N][N];
+     int c;
+     int lower, upper, val, m = 0;
+
+     /*Opening message which describes what the user has to input*/
+     printf("Please enter values of a 3x3 matrix to calculate the eigenvalue.");
+     printf("\n");
+
+     /*Loop that scans in values in a 3x3 array*/
+     for (i = 0; i < N; i++) {
+         for (j = 0; j < N; j++) {
+              if (scanf("%d", &a[i][j]) != 1) {
+                 printf("Couldn’t read element %d, %d\n", i, j);
+                 return 1;
+              }
+          }
+     }
+
+     /*loop which transposes the 3x3 matrix*/
+     for (i = 0; i < N; i++) {
+         for (j = 0; j < N; j++) {
+              t[i][j]=a[j][i];
+         }
+     }
+
+     /*multiplies (A^T)*A and stores the values in a new matrix*/
+     for (i = 0; i < N; i++) {
+         for (j = 0; j < N; j++) {
+             b[i][j]=0;
+             for (k = 0; k < N; k++) {
+                  b[i][j] += a[i][k]*t[k][j];
+             }
+         }
+     }
+
+     /*forms an identity matrix*/
+     for (i = 0; i < N; i++) {
+         for (j = 0; j < N; j++) {
+             if(i==j) {
+                I[i][j]=1;
+             }
+             else{
+                I[i][j]=0;
+             }
+         }
+     }
+
+   /* set variables of the interval*/
+   lower=1;
+   upper=2;
+
+   /*Bracket and bisect*/
+   while (abs(upper - lower) > 1E-6) {
+          m = (lower + upper)/2;
+          val = f( b, I, m);
+          if (val >= 0)
+          upper = m;
+          if (val <= 0)
+          lower = m;
+   }
+   m = (lower + upper)/2;
+
+   /*print statement*/
+   printf("The eigenvalue of the function is %d", f(b, I, m));
+   printf("\n");
+   return 0;
+
+}  
+
+/*declarations of the functions*/   
+int f(int b[][N], int I[][N], int m){
+
+    int i, j;
+    int c[N][N];
+
+    /*values are calculated and stored in a new matrix*/
+    for (int i=0; i < N; i++) {
+         for (j = 0; j < N; j++) {
+              c[i][j]=b[i][j]-(m*I[i][j]);
+         }
+     }
+
+     return det(c);
+
+}
+
+/*the determinant is calculated on c*/
+int det(int c[][N]){
+
+    int v,x,y,z;
+
+    x=c[0][0]*((c[1][1]*c[2][2])-(c[1][2]*c[2][1]));
+    y=c[0][1]*((c[1][0]*c[2][2])-(c[1][2]*c[2][0]));
+    z=c[0][2]*((c[1][0]*c[2][1])-(c[1][1]*c[2][0])); 
+
+    v=x-y+z;
+
+    return v;
+    
+}  
